@@ -48,7 +48,8 @@ Every command must be followed by yout command prefix like : ```<command_prefix>
 | information   |      info      |                None                  | Shows raw information of current player config like pointer, total songs, volume etc.  |  None  |
 | volume        |       v        | int (10,14,...any)                   | Sets the volume of current player to the given param| If no param is passed, then displays the current volume level |
 | seek          |           sk   |      int (0-9)                       | seeks the song. Every song is scaled on scale of 10, pass any int in range 0-9 and player will autotically seek playback to specific interval based on song length   |                           None              |
-
+| next          |      +1        |      None                            | Plays next song in playlist if available          |   None |
+| previous      |      -1        |      None                            | Plays previous song in playlist if available          |   None |
 
 # Customize your music player
 
