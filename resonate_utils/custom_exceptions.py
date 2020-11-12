@@ -45,6 +45,10 @@ class InvalidRemoveIndex(commands.CommandError):
     pass
 
 
+class RestrictedCommandToMusicChannel(commands.CheckFailure):
+    pass
+
+
 __all__ = [
     "AlreadyConnectedToChannel",
     "NotVoiceChannel",
@@ -57,4 +61,5 @@ __all__ = [
     "InvalidRepeatMode",
     "NotInQueue",
     "InvalidRemoveIndex",
+    "RestrictedCommandToMusicChannel"
 ]

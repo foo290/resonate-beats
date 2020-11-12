@@ -27,7 +27,7 @@ class Configs(object):
     MUSIC_SEARCH_ENGINE: str = "youtube"
 
     # MUSIC_CHANNEL_CONFIGS
-    RESTRICT_CMDS_TO_MUSIC_CHANNEL: bool = False
+    RESTRICT_CMDS_TO_MUSIC_CHANNEL: bool = True
     MUSIC_CMD_CHANNEL: int = 769254977863417887
     BOT_LEAVE_DELAY: int = 10
     NOW_PLAYING_GIF_URL: str = r"https://firebasestorage.googleapis.com/v0/b/discord-bot-294607.appspot.com/o/bot%2Fgifs%2Fmusic-player%2Fnowplaying.gif?alt=media&token=356810ce-8fdc-4854-8f81-19453abba445"

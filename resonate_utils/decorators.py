@@ -44,7 +44,9 @@ def check_connected_to_channel(func):
 
 async def predicate(ctx):
     if RESTRICTION:
-        return ctx.channel.id == channel_id
+        if not ctx.channel.id == channel_id:
+            raise RestrictedCommandToMusicChannel
+        return True
     return True
 
 

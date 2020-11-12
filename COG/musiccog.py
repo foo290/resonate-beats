@@ -31,7 +31,8 @@ from ..resonate_utils import (
     PlayerIsAlreadyPaused,
     NoMoreTracks,
     NoPreviousTracks,
-    InvalidRepeatMode
+    InvalidRepeatMode,
+    RestrictedCommandToMusicChannel
 )
 
 cooldown_warn = 0
@@ -602,7 +603,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         :return: None / handles exception
         """
 
-        if isinstance(exc, commands.CheckFailure):
+        if isinstance(exc, RestrictedCommandToMusicChannel):
             await ctx.send(f'This command is made for {self.music_channel.mention}')
         elif isinstance(exc, QueueIsEmpty):
             await ctx.send(f'Queue is empty')
