@@ -39,7 +39,7 @@ Every command must be followed by yout command prefix like : ```<command_prefix>
 
 |  Command Name |  Command Alias |          Command Parameters          |                 Command Action                    |                 Extra note                  |
 |---------------|----------------|--------------------------------------|---------------------------------------------------|---------------------------------------------|
-| connect       |    join        |            channel name              | connect the bot to the voice channel              | Command invoker should be in voice channel  |
+| connect       |    join        |            channel name(Optional)    | connect the bot to the voice channel              | Command invoker should be in voice channel  |
 | play          |         p      | song_name/song_link/playlist_link    | Searches for the given params, will ask for the songs found and add that to the playlist.         | Resumes the playerif it is paused.|
 | stop          |      s         |            None                      | Stops the player and clears the current playlist. |         None                                |
 | pause         |     ps         |            None                      | Pauses the player.                                | To resume the player, use play command without params.|
