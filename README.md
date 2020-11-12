@@ -1,5 +1,7 @@
-# resonate-beats 🎵
-resonate-beats is a Discord COG file which can be integrated to any discord bot to add superb music streaming functionality to the existing bot.
+<p align='center'>
+<img src='https://github.com/foo290/resonate-beats/blob/main/discord-logo.png' width=180px, alt='an image was supposed to be here'>
+</p>
+<h1 align='center', style='font-size:30px'><b> resonate-beats</b> 🎵</h1>
 
 ## Setup
 There is an extension file in COG directory named musiccog.py, add that file to your existing cog directory and the add "resonate_utils" directory to one level top of it. So if your current setup should look like this : 
@@ -50,6 +52,6 @@ Every command must be followed by yout command prefix like : ```<command_prefix>
 
 # Customize your music player
 
-... docs will be updated soon...
+...further docs will be updated soon...
 
 
