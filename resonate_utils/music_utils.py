@@ -9,7 +9,7 @@ from .decorators import (
     NoTracksFound,
     export
 )
-from .settings import configs
+from .resonate_settings import Configs
 from .track_utils import true_duration_in_mins
 from ..resonate_utils import (
     NotVoiceChannel,
@@ -230,7 +230,7 @@ class Player(wavelink.Player):
     async def start_playback(self, track):
         requester = self.song_and_requester.get(track.title, r'Someone ¯\_(ツ)_/¯')  # get requester from dict
         await self.show_now_playing_embed(requester, track)
-        await self.set_volume(configs.DEFAULT_VOLUME)
+        await self.set_volume(Configs.DEFAULT_VOLUME)
         await self.play(track)
         putlog.debug('Fresh Player started...')
         return
@@ -247,7 +247,7 @@ class Player(wavelink.Player):
         msg = await ctx.send(
             embed=music_embeds.choose_track_embed(
                 ctx, tracks, search_engine,
-                show_limit=configs.SONG_RESULTS_LIMIT
+                show_limit=Configs.SONG_RESULTS_LIMIT
             )
         )
 

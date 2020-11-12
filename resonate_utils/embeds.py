@@ -1,19 +1,16 @@
 import discord
-from .settings import configs
+from .resonate_settings import Configs
 from .track_utils import show_track_duration
 from .decorators import export
 import datetime as dt
 
-COMMAND_PREFIX = configs.COMMAND_PREFIX
-BOT_NAME = configs.BOT_NAME
-NOW_PLAYING_GIF_URL = configs.NOW_PLAYING_GIF_URL
-INITIAL_CONNECT_GIF_URL = configs.INITIAL_CONNECT_GIF_URL
+NOW_PLAYING_GIF_URL = Configs.NOW_PLAYING_GIF_URL
+INITIAL_CONNECT_GIF_URL = Configs.INITIAL_CONNECT_GIF_URL
 
 
 @export
 class MusicEmbeds:
-    def __init__(self):
-        pass
+    def __init__(self): ...
 
     @staticmethod
     def show_state(state):
@@ -131,7 +128,7 @@ class MusicEmbeds:
             embed.add_field(
                 name="Coming Up Next! ",
                 value="\n\n".join(f"📍 [{_t.title}]({_t.info.get('uri', '')})"
-                                  for _t in upcoming_songs[:configs.UPCOMING_TRACKS_LIMIT]),
+                                  for _t in upcoming_songs[:Configs.UPCOMING_TRACKS_LIMIT]),
                 inline=False
             )
 
@@ -140,7 +137,7 @@ class MusicEmbeds:
     @staticmethod
     def now_playing(track, display_name, icon, info, clr=discord.Color.blurple(), thumb=None, **kwargs):
         embed = discord.Embed(
-            title=f"{configs.R_BEATS} Now Playing . . .",
+            title=f"{Configs.R_BEATS} Now Playing . . .",
             description=f"🔊 [{track}]({info.get('uri', '')})\n\n"
                         f"**Playing : ** {kwargs.get('current_song_index') + 1} of {kwargs.get('total_length')} songs.",
             colour=clr,

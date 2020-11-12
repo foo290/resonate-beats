@@ -12,7 +12,7 @@ import re
 import asyncio
 from discord.ext import commands
 from ..resonate_utils import (
-    configs,
+    Configs,
     paginate,
     logger,
     MusicEmbeds,
@@ -38,17 +38,17 @@ cooldown_warn = 0
 
 putlog = logger.get_custom_logger(__name__)
 
-REST_URI = configs.REST_URI
-MUSIC_HOST = configs.MUSIC_HOST
-MUSIC_PORT = configs.MUSIC_PORT
-MAX_VOLUME = configs.MAX_VOLUME
-DEFAULT_VOLUME = configs.DEFAULT_VOLUME
-MUSIC_SERVER_PW = configs.MUSIC_SERVER_PW
-MUSIC_SERVER_REGION = configs.MUSIC_SERVER_REGION
-MUSIC_SEARCH_ENGINE = configs.MUSIC_SEARCH_ENGINE
-BOT_LEAVE_CHANNEL_DELAY = configs.BOT_LEAVE_DELAY
-MUSIC_CHANNEL = configs.MUSIC_CMD_CHANNEL
-PAGINATION_LIMIT = configs.PAGINATION_LIMIT
+REST_URI = Configs.REST_URI
+MUSIC_HOST = Configs.MUSIC_HOST
+MUSIC_PORT = Configs.MUSIC_PORT
+MAX_VOLUME = Configs.MAX_VOLUME
+DEFAULT_VOLUME = Configs.DEFAULT_VOLUME
+MUSIC_SERVER_PW = Configs.MUSIC_SERVER_PW
+MUSIC_SERVER_REGION = Configs.MUSIC_SERVER_REGION
+MUSIC_SEARCH_ENGINE = Configs.MUSIC_SEARCH_ENGINE
+BOT_LEAVE_CHANNEL_DELAY = Configs.BOT_LEAVE_DELAY
+MUSIC_CHANNEL = Configs.MUSIC_CMD_CHANNEL
+PAGINATION_LIMIT = Configs.PAGINATION_LIMIT
 
 MUSIC_SEARCH_ENGINE = MUSIC_SEARCH_ENGINE.lower()
 
@@ -76,7 +76,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         self.cooldown = 10
         self.cooldown_lock = False
         self.cooldown_tries = 0
-        self.music_channel = self.bot.get_channel(configs.MUSIC_CMD_CHANNEL)
+        self.music_channel = self.bot.get_channel(Configs.MUSIC_CMD_CHANNEL)
         self.song_index = 0  # used to play songs directly by no. This variable should be managed manually.
 
     @staticmethod
@@ -304,16 +304,22 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                 query = query.strip("<>")  # search by link
 
                 await self.search_engine_manager(ctx, query, player)
+                # if not re.match(URL_REGEX, query):
+                #     putlog.debug('Query is song name. NOT A LINK')
+                #     query = self.set_search_engine(query)  # search by song name
+                #
+                # songs_found = await self.wavelink.get_tracks(query)
+                # await player.add_tracks(ctx, songs_found)
 
     async def search_engine_manager(self, ctx, query, player):
         if not re.match(URL_REGEX, query):
             putlog.debug('Query is song name. NOT A LINK')
             songs = await self.wavelink.get_tracks(f"ytsearch:{query}")
             if songs:
-                await player.add_tracks(ctx, songs, search_engine=configs.YT)
+                await player.add_tracks(ctx, songs, search_engine=Configs.YT)
             else:
                 temp = await self.wavelink.get_tracks(f"scsearch:{query}")
-                await player.add_tracks(ctx, temp, search_engine=configs.SC)
+                await player.add_tracks(ctx, temp, search_engine=Configs.SC)
             return
 
         await player.add_tracks(ctx, await self.wavelink.get_tracks(query))

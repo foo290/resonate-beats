@@ -2,10 +2,10 @@ import sys
 from .custom_exceptions import *
 from functools import wraps
 from discord.ext import commands
-from .settings import configs
+from .resonate_settings import Configs
 
-channel_id = configs.MUSIC_CMD_CHANNEL
-RESTRICTION = configs.RESTRICT_CMDS_TO_MUSIC_CHANNEL
+channel_id = Configs.MUSIC_CMD_CHANNEL
+RESTRICTION = Configs.RESTRICT_CMDS_TO_MUSIC_CHANNEL
 
 
 def export(fn):

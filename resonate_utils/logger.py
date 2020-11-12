@@ -1,9 +1,9 @@
-from .settings import configs
+from .resonate_settings import Configs
 from .decorators import export
 import logging
 import sys
 
-LOG_FILE = configs.LOG_FILE
+LOG_FILE = Configs.LOG_FILE
 
 
 class CustomFormatter(logging.Formatter):
@@ -43,10 +43,11 @@ def get_custom_logger(name, level=logging.DEBUG, console=True):
     _logger = logging.Logger(name)
 
     try:
-        filehandler = logging.FileHandler(LOG_FILE)
-        filehandler.setLevel(level)
-        filehandler.setFormatter(formatter)
-        _logger.addHandler(filehandler)
+        if Configs.WRITE_LOGS:
+            filehandler = logging.FileHandler(LOG_FILE)
+            filehandler.setLevel(level)
+            filehandler.setFormatter(formatter)
+            _logger.addHandler(filehandler)
     except:
         pass
 
@@ -55,6 +56,6 @@ def get_custom_logger(name, level=logging.DEBUG, console=True):
 
     stream_handler.setFormatter(formatter)
 
-    if console:
+    if console and Configs.STDOUT_LOGS:
         _logger.addHandler(stream_handler)
     return _logger
