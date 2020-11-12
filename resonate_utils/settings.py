@@ -1,7 +1,7 @@
 """
 NOTE : This project follows PEP 8 Styling Guide. If anything is not according to PEP 8, feel free to make it.
 
-This module is provides support for music configurations.
+This module is the heart of the Bot. Every settings defined or set here is been used throughout the bot.
 
 Abbreviation:
     --> settings groups : A dict is referred as settings group coz every dict contains settings related to
@@ -10,7 +10,7 @@ Abbreviation:
 Every group of settings are dicts and joined in a single dict later in utils.configMapper.
 
 These settings are accessed by "." (dot) operator with exact names like :
-        config.MUSIC_HOST  ----> Gives host name
+        config.BOT_NAME  ----> Gives bot name
 
 Once you define a new setting group as dict, add that in the Config class at bottom.
 Remember these are dicts, Keys are unique in all settings groups as they are joined as one later.
@@ -72,8 +72,6 @@ CUSTOM_EMOJIS = {
 }
 
 LOGGING = {
-    'STDOUT_LOGS': True,
-    'WRITE_LOGS': True,
     'LOG_FILE': 'logs/agness.log',
 }
 

@@ -43,11 +43,10 @@ def get_custom_logger(name, level=logging.DEBUG, console=True):
     _logger = logging.Logger(name)
 
     try:
-        if configs.WRITE_LOGS:
-            filehandler = logging.FileHandler(LOG_FILE)
-            filehandler.setLevel(level)
-            filehandler.setFormatter(formatter)
-            _logger.addHandler(filehandler)
+        filehandler = logging.FileHandler(LOG_FILE)
+        filehandler.setLevel(level)
+        filehandler.setFormatter(formatter)
+        _logger.addHandler(filehandler)
     except:
         pass
 
@@ -56,6 +55,6 @@ def get_custom_logger(name, level=logging.DEBUG, console=True):
 
     stream_handler.setFormatter(formatter)
 
-    if console and configs.STDOUT_LOGS:
+    if console:
         _logger.addHandler(stream_handler)
     return _logger

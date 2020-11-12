@@ -52,10 +52,6 @@ PAGINATION_LIMIT = configs.PAGINATION_LIMIT
 
 MUSIC_SEARCH_ENGINE = MUSIC_SEARCH_ENGINE.lower()
 
-
-
-debug_index = 1
-
 music_embeds = MusicEmbeds()
 
 URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|" \
@@ -308,12 +304,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                 query = query.strip("<>")  # search by link
 
                 await self.search_engine_manager(ctx, query, player)
-                # if not re.match(URL_REGEX, query):
-                #     putlog.debug('Query is song name. NOT A LINK')
-                #     query = self.set_search_engine(query)  # search by song name
-                #
-                # songs_found = await self.wavelink.get_tracks(query)
-                # await player.add_tracks(ctx, songs_found)
 
     async def search_engine_manager(self, ctx, query, player):
         if not re.match(URL_REGEX, query):
