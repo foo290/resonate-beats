@@ -1,9 +1,5 @@
 from .decorators import export
-
-
-class StrideOutOfRange(Exception):
-    pass
-
+from .custom_exceptions import StrideOutOfRange
 
 def validate_strides(stride, total_len):
     run = int(total_len / 10)

@@ -6,11 +6,11 @@ This module contains configuration for music player.
 """
 
 from dataclasses import dataclass
+import os
 
 
 @dataclass()
 class Configs(object):
-
     # MUSIC_PLAYER_CONFIGS
     DEFAULT_VOLUME: int = 50
     MAX_VOLUME: int = 100
@@ -22,12 +22,11 @@ class Configs(object):
     MUSIC_HOST: str = "lava-link-server.herokuapp.com"
     MUSIC_PORT: int = 80
     REST_URI: str = "http://lava-link-server.herokuapp.com"
-    MUSIC_SERVER_PW: str = "serverserveserverdata"
+    MUSIC_SERVER_PW: str = os.environ.get('MUSIC_SERVER_PW')
     MUSIC_SERVER_REGION: str = "na"
-    MUSIC_SEARCH_ENGINE: str = "youtube"
 
     # MUSIC_CHANNEL_CONFIGS
-    RESTRICT_CMDS_TO_MUSIC_CHANNEL: bool = True
+    RESTRICT_CMDS_TO_MUSIC_CHANNEL: bool = False
     MUSIC_CMD_CHANNEL: int = 769254977863417887
     BOT_LEAVE_DELAY: int = 10
     NOW_PLAYING_GIF_URL: str = r"https://firebasestorage.googleapis.com/v0/b/discord-bot-294607.appspot.com/o/bot%2Fgifs%2Fmusic-player%2Fnowplaying.gif?alt=media&token=356810ce-8fdc-4854-8f81-19453abba445"
@@ -45,9 +44,65 @@ class Configs(object):
     # Logging
     STDOUT_LOGS: bool = True
     WRITE_LOGS: bool = True
-    LOG_FILE: str = "logs/agness.log"
+    LOG_FILE: str = "logs/music.log"
 
+
+# Commands and their aliases
+CMD_ALIASES = {
+    'connect': [
+        'join',
+    ],
+    'leave': [
+      'lv'
+    ],
+    'play': [
+        'p',
+    ],
+    'stop': [
+        's',
+    ],
+    'next': [
+        '+1',
+    ],
+    'previous': [
+        '-1',
+    ],
+    'pause': [
+        'ps',
+    ],
+    'remove': [
+        'rm',
+    ],
+    'playlist': [
+        'pl',
+    ],
+    'seek': [
+        'sk',
+    ],
+    'volume': [
+        'v',
+    ],
+    'information': [
+        'info',
+    ],
+    'repeat': [
+        'rp'
+    ],
+    'reset_playlist': [
+        'rstpl'
+    ],
+    'shuffle': [
+        'shfl'
+    ],
+    'player_mute': [
+        'm'
+    ],
+    'player_unmute': [
+        'um'
+    ],
+
+}
 
 __all__ = [
-    "Configs"
+    "Configs", "CMD_ALIASES"
 ]

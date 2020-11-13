@@ -11,7 +11,7 @@ import typing as t
 import re
 import asyncio
 from discord.ext import commands
-from ..resonate_utils import (
+from AGNESS_BOT.bot.resonate_utils import (
     Configs,
     paginate,
     logger,
@@ -20,14 +20,16 @@ from ..resonate_utils import (
     Player,
     RepeatMode,
     check_valid_channel,
-    show_track_duration
+    show_track_duration,
+    CMD_ALIASES
 )
 
 # Custom exceptions
-from ..resonate_utils import (
+from AGNESS_BOT.bot.resonate_utils import (
     AlreadyConnectedToChannel,
     NotVoiceChannel,
     QueueIsEmpty,
+    InvalidRemoveIndex,
     PlayerIsAlreadyPaused,
     NoMoreTracks,
     NoPreviousTracks,
@@ -46,12 +48,10 @@ MAX_VOLUME = Configs.MAX_VOLUME
 DEFAULT_VOLUME = Configs.DEFAULT_VOLUME
 MUSIC_SERVER_PW = Configs.MUSIC_SERVER_PW
 MUSIC_SERVER_REGION = Configs.MUSIC_SERVER_REGION
-MUSIC_SEARCH_ENGINE = Configs.MUSIC_SEARCH_ENGINE
 BOT_LEAVE_CHANNEL_DELAY = Configs.BOT_LEAVE_DELAY
 MUSIC_CHANNEL = Configs.MUSIC_CMD_CHANNEL
 PAGINATION_LIMIT = Configs.PAGINATION_LIMIT
 
-MUSIC_SEARCH_ENGINE = MUSIC_SEARCH_ENGINE.lower()
 
 music_embeds = MusicEmbeds()
 
@@ -89,15 +89,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
             return False
         except ValueError:
             return False
-
-    @staticmethod
-    def set_search_engine(query):
-        if MUSIC_SEARCH_ENGINE == 'soundcloud':
-            return f"scsearch:{query}"
-        elif MUSIC_SEARCH_ENGINE == 'youtube':
-            return f"ytsearch:{query}"
-        else:
-            return f"scsearch:{query}"
 
     def get_player(self, obj):
         """
@@ -171,7 +162,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         """
         putlog.debug(f"Wavelink node {node.identifier} connected.      OK!")
 
-    @commands.command(name='connect', aliases=['join', 'jvc'])
+    @commands.command(name='connect', aliases=CMD_ALIASES['connect'])
     @check_valid_channel
     async def connect_command(self, ctx, *, channel: t.Optional[discord.VoiceChannel]):
         """
@@ -193,7 +184,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         await player.set_volume(DEFAULT_VOLUME)
         putlog.info('Bot has joined the voice channel.')
 
-    @commands.command(name='disconnect', aliases=['leave', 'lv'])
+    @commands.command(name='disconnect', aliases=CMD_ALIASES['leave'])
     @check_valid_channel
     async def disconnect_command(self, ctx):
         """
@@ -260,7 +251,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         await ctx.send('Cooldown removed! You can request song by link now.')
         return
 
-    @commands.command(name='play', aliases=['p', 'ply'])
+    @commands.command(name='play', aliases=CMD_ALIASES['play'])
     @check_valid_channel
     async def play_command(self, ctx, *, query: t.Optional[str]):
         """
@@ -305,12 +296,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                 query = query.strip("<>")  # search by link
 
                 await self.search_engine_manager(ctx, query, player)
-                # if not re.match(URL_REGEX, query):
-                #     putlog.debug('Query is song name. NOT A LINK')
-                #     query = self.set_search_engine(query)  # search by song name
-                #
-                # songs_found = await self.wavelink.get_tracks(query)
-                # await player.add_tracks(ctx, songs_found)
 
     async def search_engine_manager(self, ctx, query, player):
         if not re.match(URL_REGEX, query):
@@ -327,7 +312,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
         # ----------------------------------------------------------------------
 
-    @commands.command(name='pause', aliases=['ps'])
+    @commands.command(name='pause', aliases=CMD_ALIASES['pause'])
     @check_valid_channel
     async def pause_command(self, ctx):
         """
@@ -343,7 +328,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         await player.set_pause(True)
         await ctx.send('⏸    Playback Paused!')
 
-    @commands.command(name='stop', aliases=['s'])
+    @commands.command(name='stop', aliases=CMD_ALIASES['stop'])
     @check_valid_channel
     async def stop_command(self, ctx):
         """
@@ -364,7 +349,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
             putlog.warning('Player is already stopped, still stop command is invoked!')
             await ctx.send('Do you hear anything? ... NO!. coz player is already stopped. 😋')
 
-    @commands.command(name='next', aliases=['skip', 'nxt', '+1'])
+    @commands.command(name='next', aliases=CMD_ALIASES['next'])
     @check_valid_channel
     async def next_command(self, ctx):
         """
@@ -380,7 +365,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         await player.stop()
         await ctx.send(f'Playing next track   ⏭')
 
-    @commands.command(name='previous', aliases=['-1', 'prv'])
+    @commands.command(name='previous', aliases=CMD_ALIASES['previous'])
     @check_valid_channel
     async def previous_command(self, ctx):
         """
@@ -396,7 +381,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         await player.stop()
         await ctx.send('Playing previous track in queue.  ⏮')
 
-    @commands.command(name='remove', aliases=['rm'])
+    @commands.command(name='remove', aliases=CMD_ALIASES['remove'])
     @check_valid_channel
     async def remove_command(self, ctx, ind: str):
         putlog.debug(f"Track remove request receive. Index specified : {ind}")
@@ -421,7 +406,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         except ValueError:
             await ctx.send('Please specify the index of song you want to remove as integer number.')
 
-    @commands.command(name='seek', aliases=['sk'])
+    @commands.command(name='seek', aliases=CMD_ALIASES['seek'])
     @check_valid_channel
     async def seek_command(self, ctx, stride: t.Optional[int] = 1):
         player = self.get_player(ctx)
@@ -437,7 +422,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         else:
             await ctx.send('stride is wrong')
 
-    @commands.command(name='repeat', aliases=['rpt', 'rp'])
+    @commands.command(name='repeat', aliases=CMD_ALIASES['repeat'])
     @check_valid_channel
     async def repeat_command(self, ctx, mode: str):
         mode = mode.lower()
@@ -460,7 +445,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
         await ctx.send(response)
 
-    @commands.command(name="volume", aliases=['vol', 'v'])
+    @commands.command(name="volume", aliases=CMD_ALIASES['volume'])
     @check_valid_channel
     async def set_player_volume(self, ctx, v: t.Optional[str]):
         try:
@@ -484,21 +469,21 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         except ValueError:
             await ctx.send(f"Volume must be Integer")
 
-    @commands.command(aliases=['m'])
+    @commands.command(name='player_mute', aliases=CMD_ALIASES['player_mute'])
     @check_valid_channel
     async def mute_command(self, ctx):
         player = self.get_player(ctx)
         await player.set_volume(0)
         await ctx.send('Player is muted!  🔇')
 
-    @commands.command(aliases=['um'])
+    @commands.command(name='player_unmute', aliases=CMD_ALIASES['player_unmute'])
     @check_valid_channel
     async def unmute_command(self, ctx):
         player = self.get_player(ctx)
         await player.set_volume(self.current_volume)
         await ctx.send('Player mute removed!  🔊')
 
-    @commands.command(name='shuffle', aliases=['shfl', 'sfl'])
+    @commands.command(name='shuffle', aliases=CMD_ALIASES['shuffle'])
     @check_valid_channel
     async def shuffle_command(self, ctx):
         """
@@ -510,7 +495,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         player.queue.shuffle()
         await ctx.send('Queue shuffled')
 
-    @commands.command(name='queue', aliases=['playlist', 'plylst', 'plst', 'pl'])
+    @commands.command(name='playlist', aliases=CMD_ALIASES['playlist'])
     @check_valid_channel
     async def queue_command(self, ctx, page_stride: t.Optional[int] = 1):
         player = self.get_player(ctx)
@@ -550,7 +535,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         if reaction:
             await plst.delete()
 
-    @commands.command(name='information', aliases=['info'])
+    @commands.command(name='information', aliases=CMD_ALIASES['information'])
     @check_valid_channel
     async def information_command(self, ctx):
         player = self.get_player(ctx)
@@ -571,7 +556,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
             )
         )
 
-    @commands.command(name='reset_playlist', aliases=['rstpl'])
+    @commands.command(name='reset_playlist', aliases=CMD_ALIASES['reset_playlist'])
     @check_valid_channel
     async def reset_command(self, ctx):
         player = self.get_player(ctx)
@@ -605,6 +590,8 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
         if isinstance(exc, RestrictedCommandToMusicChannel):
             await ctx.send(f'This command is made for {self.music_channel.mention}')
+        elif isinstance(exc, InvalidRemoveIndex):
+            await ctx.send(f'The playlist is not that big 🙄, Invalid Index!')
         elif isinstance(exc, QueueIsEmpty):
             await ctx.send(f'Queue is empty')
 
