@@ -39,6 +39,8 @@ Once your directory setup is complete, load the cog/extension in your bot by the
 The musiccog contains a built in logger so you will know it the file has been loaded successfully as it will print status to the STDOUT.
 
 ### 3. Server setup :
+The server and configuration used in this project is provided in ```server``` directory exactly for cloud server setup. (I used heroku for testing.)
+
 This project uses lavalink server to stream music which can be downloaded <a href='https://github.com/Frederikam/Lavalink/releases'>here</a>.
 
 Once you download the server ```Lavalink.jar``` file, to test it locally, run command in your terminal :
