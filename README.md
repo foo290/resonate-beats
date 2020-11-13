@@ -68,7 +68,8 @@ Every command must be followed by yout command prefix like : ```<command_prefix>
 | next          |      +1        |      None                            | Plays next song in playlist if available          |   None |
 | previous      |      -1        |      None                            | Plays previous song in playlist if available          |   None |
 
-# Customize your music player
+
+<h1 align='center'>Customize your music player</h1>
 
 Every setting of music player is defined in ```resonate_setting.py``` module. There is a data class holding all the important variables which you can customize according to your preferences.
 
@@ -162,8 +163,9 @@ MUSIC_SERVER_REGION: str = "your region"
 ```
 </p>
 
-...further docs will be added soon ...
 
+
+...further docs will be added soon ...
 
 
 
