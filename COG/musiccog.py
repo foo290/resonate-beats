@@ -11,10 +11,9 @@ import typing as t
 import re
 import asyncio
 from discord.ext import commands
-from AGNESS_BOT.bot.resonate_utils import (
+from .resonate_utils import (
     Configs,
     paginate,
-    logger,
     MusicEmbeds,
     scale_to_10,
     Player,
@@ -23,9 +22,10 @@ from AGNESS_BOT.bot.resonate_utils import (
     show_track_duration,
     CMD_ALIASES
 )
+from .resonate_utils import logger
 
 # Custom exceptions
-from AGNESS_BOT.bot.resonate_utils import (
+from .resonate_utils import (
     AlreadyConnectedToChannel,
     NotVoiceChannel,
     QueueIsEmpty,
