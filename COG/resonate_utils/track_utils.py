@@ -12,7 +12,8 @@ def scale_to_10(length, stride):
     """
     This function scales track of any length from 0-9 scale for seek
     :param length: total length in milliseconds.
-    :param stride: no. of stride we want to seek, For ex : stride = 1 means seek 45 seconds from current position.
+    :param stride: no. of stride we want to seek, For ex : stride = 1 means seek total_length of song//10th
+                    seconds from current position.
     :return: milliseconds to seek for player (because seek function of player supports seek in ms.)
     """
     try:

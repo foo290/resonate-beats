@@ -12,34 +12,30 @@ Everything you need to run this player is defined in requirements.txt.
 
 ### 2. Directory and files setup :
 
-There is an extension file in COG directory named musiccog.py, add that file to your existing cog directory and the add "resonate_utils" directory to one level top of it. So if your current setup should look like this : 
+There is an extension file in COG directory named musiccog.py, add that file to your existing cog directory and the add "resonate_utils" directory to same directory as musiccog. So if your current setup should look like this : 
 
 ```
-├── bot.py
-├── cogs
+├── COGs
 │   ├── __init__.py
-│   ├── admin_cmds.py
+│   ├── musiccog.py  ----> Music cog file
 |   |__ ...
-│   |__ musiccog.py     ----> Music Cog file.
-|   |__ ...
-|
-└── resonate_utils     ----> Utilities directory one level above from COG.
-    ├── __init__.py
-    ├── custom_exceptions.py
-    ├── decorators.py
-    ├── embeds.py
-    ├── logger.py
-    ├── music_utils.py
-    ├── resonate_settings.py
-    └── track_utils.py
+│   └── resonate_utils   ----> resonate_utils directory 
+│       ├── __init__.py
+│       ├── custom_exceptions.py
+│       ├── decorators.py
+|       |__ ...
+
 ```
-<b>NOTE : </b>The ```musiccog.py``` file contains relative imports from ```resonate_utils``` dir, If your project needs to change the location of resonate utiils then change the relative imports to absolute imports.
+
+<b>NOTE : </b>```musiccog.py``` and ```resonate_utils``` must be in same directory as the ```musiccog.py``` file contains relative imports from ```resonate_utils``` dir, If your project needs to change the location of resonate utiils then change the relative imports to absolute imports.
 
 Once your directory setup is complete, load the cog/extension in your bot by the method you are using to load COGs in your bot.
 The musiccog contains a built in logger so you will know it the file has been loaded successfully as it will print status to the STDOUT.
 
 ### 3. Server setup :
-The server and configuration used in this project is provided in ```server``` directory exactly for cloud server setup. (I used heroku for testing.)
+<b>The server and configuration used in this project is provided in ```server``` directory exactly for cloud server setup.</b> (I used heroku for testing.)
+
+The server configs are configured in ```application.yml``` file.
 
 This project uses lavalink server to stream music which can be downloaded <a href='https://github.com/Frederikam/Lavalink/releases'>here</a>.
 
@@ -72,7 +68,8 @@ Every command must be followed by yout command prefix like : ```<command_prefix>
 | next          |      +1        |      None                            | Plays next song in playlist if available          |   None |
 | previous      |      -1        |      None                            | Plays previous song in playlist if available          |   None |
 
-# Customize your music player
+
+<h1 align='center'>Customize your music player</h1>
 
 Every setting of music player is defined in ```resonate_setting.py``` module. There is a data class holding all the important variables which you can customize according to your preferences.
 
@@ -137,7 +134,23 @@ This logger also pukes the logs in STDOUT/console, if you dont want this behavio
 <p id='serverconfigs'>
 <h2>5. Server configs :</h2>
 
-You must be hosting a lavalink server for this project (obviously), here is how you can define and set its configurations :
+An ```application.yml``` file holds all the internal configuration for server. (provided in server directory)
+
+### Localhost configs :
+
+Inside the Config dataclass in ```resonate_settings.py``` :
+
+```
+MUSIC_HOST: str = "127.0.0.1"
+MUSIC_PORT: int = 2333
+REST_URI: str = "http://127.0.0.1:2333"
+MUSIC_SERVER_PW: str = os.environ.get('MUSIC_SERVER_PW') ----> set this environment variable for password (recommended).
+MUSIC_SERVER_REGION: str = "your region"
+```
+
+### Cloud configs :
+
+You must be hosting a lavalink server for this project (obviously), here is how you can define and set its configurations in the code:
 
 Inside the Config dataclass in ```resonate_settings.py``` :
 
@@ -148,11 +161,11 @@ REST_URI: str = "Host uri here"
 MUSIC_SERVER_PW: str = os.environ.get('MUSIC_SERVER_PW') ----> set this environment variable for password (recommended).
 MUSIC_SERVER_REGION: str = "your region"
 ```
-
 </p>
 
-...further docs will be added soon ...
 
+
+...further docs will be added soon ...
 
 
 
