@@ -165,7 +165,6 @@ MUSIC_SERVER_REGION: str = "your region"
 
 
 
-...further docs will be added soon ...
 
 
 
