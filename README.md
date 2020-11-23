@@ -3,6 +3,9 @@
 </p>
 <h1 align='center', style='font-size:30px'><b> resonate-beats</b> 🎵</h1>
 
+resonate-beats is a Discord COG file that can be added to any discord bot to add superb music streaming functionality to the existing bot.
+
+
 ## Setup
 
 ### 1. Dependencies :
