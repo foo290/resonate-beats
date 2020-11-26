@@ -1,8 +1,4 @@
 <p align='center'>
-<img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/rb%2Bdc.png' alt='an image was supposed to be here'>
-</p>
-
-<p align='center'>
 <img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/resonate-beats-logo.png' width=180px, alt='an image was supposed to be here'>
 </p>
 <h1 align='center', style='font-size:30px'><b> resonate-beats</b> 🎵</h1>
@@ -170,6 +166,11 @@ REST_URI: str = "Host uri here"
 MUSIC_SERVER_PW: str = os.environ.get('MUSIC_SERVER_PW') ----> set this environment variable for password (recommended).
 MUSIC_SERVER_REGION: str = "your region"
 ```
+</p>
+
+
+<p align='center'>
+<img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/rb%2Bdc.png' alt='an image was supposed to be here'>
 </p>
 
 
