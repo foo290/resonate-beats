@@ -5,9 +5,7 @@
 
 resonate-beats is a Discord COG file that can be added to any discord bot to add superb music streaming functionality to the existing bot.
 
-<p align='center'>
-    <img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/rb%2Bdc.png' width=600px, alt='an image was supposed to be here'>
-</p>
+
 
 
 ## Setup
