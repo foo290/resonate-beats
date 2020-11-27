@@ -69,8 +69,9 @@ class MusicEmbeds:
 
     @staticmethod
     def choose_track_embed(ctx, tracks, search_engine=None, show_limit=5):
+        title = search_engine if search_engine else 'Choose Track...'
         embed = discord.Embed(
-            title=f'{search_engine}',
+            title=f'{title}',
             description=(
                 "\n\n".join(
                     f"**{i + 1}.** [{_t.title}]({_t.info.get('uri', '')}) ({show_track_duration(_t.length)})"
@@ -136,8 +137,9 @@ class MusicEmbeds:
 
     @staticmethod
     def now_playing(track, display_name, icon, info, clr=discord.Color.blurple(), thumb=None, **kwargs):
+        title = f"{Configs.R_BEATS} Now Playing . . ." if Configs.R_BEATS else 'Now Playing . . .'
         embed = discord.Embed(
-            title=f"{Configs.R_BEATS} Now Playing . . .",
+            title=title,
             description=f"🔊 [{track}]({info.get('uri', '')})\n\n"
                         f"**Playing : ** {kwargs.get('current_song_index') + 1} of {kwargs.get('total_length')} songs.",
             colour=clr,

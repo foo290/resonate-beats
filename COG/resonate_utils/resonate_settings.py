@@ -36,10 +36,10 @@ class Configs(object):
     PAGINATION_LIMIT: int = 6
     UPCOMING_TRACKS_LIMIT: int = 2
 
-    # CUSTOM_EMOJIS
-    YT: str = "<:yt:775306162622955611> YouTube"
-    SC: str = "<:sc:775309222032048178> SoundCloud"
-    R_BEATS: str = "<:resonate:775316195745726504>"
+    # CUSTOM_EMOJIS (These are optional but if set, the emojis will be used as icons on embeds)
+    YT: str = None  # Ex : "<:emoji_name:id_of_emoji> YouTube"
+    SC: str = None
+    R_BEATS: str = None
 
     # Logging
     STDOUT_LOGS: bool = True
