@@ -1,7 +1,12 @@
 <p align='center'>
-<img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/discord-logo.png' width=180px, alt='an image was supposed to be here'>
+<img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/resonate-beats-logo.png' width=180px, alt='an image was supposed to be here'>
 </p>
 <h1 align='center', style='font-size:30px'><b> resonate-beats</b> 🎵</h1>
+
+resonate-beats is a Discord COG file that can be added to any discord bot to add superb music streaming functionality to the existing bot.
+
+
+
 
 ## Setup
 
@@ -164,8 +169,12 @@ MUSIC_SERVER_REGION: str = "your region"
 </p>
 
 
+<p align='center'>
+<img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/rb%2Bdc.png' alt='an image was supposed to be here'>
+</p>
 
-...further docs will be added soon ...
+
+
 
 
 
