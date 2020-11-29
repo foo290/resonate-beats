@@ -17,11 +17,14 @@ from ..resonate_utils import (
     QueueIsEmpty,
     NotInQueue,
     MusicEmbeds,
+    MusicPlainMessages,
     logger,
 )
 
 putlog = logger.get_custom_logger(__name__)
 music_embeds = MusicEmbeds()
+music_plaintxt = MusicPlainMessages()
+
 OPTIONS = {
     "1️⃣": 0,
     "2⃣": 1,
@@ -159,8 +162,19 @@ class Queue:
 # ======================================================================================================================
 # ======================================================================================================================
 
+class CustomEqualizer(wavelink.Player):
+    def get_equalizer(self, num=1):
+        eq_1 = self.eq.build(name='EQ1', levels=[(10, 10.0)])
+        eq_2 = self.eq.build(name='EQ2', levels=[(12, 11.0)])
+        eq_3 = self.eq.build(name='EQ3', levels=[(13, 17.0)])
+        eq_4 = self.eq.build(name='EQ4', levels=[(14, 5.0)])
+        eq_5 = self.eq.build(name='EQ5', levels=[(15, 100.0)])
+
+        return dict(zip(list(range(1, 6)), [eq_1, eq_2, eq_3, eq_4, eq_5]))[num]
+
+
 @export
-class Player(wavelink.Player):
+class Player(CustomEqualizer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.queue = Queue()
@@ -188,15 +202,16 @@ class Player(wavelink.Player):
     async def add_tracks(self, ctx, tracks, search_engine=None) -> None:
         if not tracks:
             putlog.debug('No search results. Raising Exception.     NoTracksFound!')
-            await ctx.send('Oops! . . . I didnt found any song for given query! 😕')
+            await ctx.send(music_plaintxt.no_results_found())
             raise NoTracksFound
+
         if isinstance(tracks, wavelink.TrackPlaylist):  # if tracks are a playlist
             putlog.debug('Search results is a play list. Adding playlist to queue.')
             for track in tracks.tracks:
                 self.song_and_requester[track.title] = ctx  # ----> Set requester for each song in playlist.
             self.queue.add(*tracks.tracks)
-            await ctx.send(f'{self.queue.length} songs of your playlist added in queue successfully!'
-                           f' Keep the party going...🎉 🥳')
+            await ctx.send(music_plaintxt.playlist_added(self.queue.length))
+
         elif len(tracks) == 1:
             putlog.debug('Only one track found. Adding it in queue.')
             self.queue.add(tracks[0])
@@ -209,6 +224,7 @@ class Player(wavelink.Player):
             putlog.debug('Multiple songs found. Asking user to choose which one to put in queue.')
             track = await self.choose_track(ctx, tracks, search_engine)  # Show option to choose from tracks
             if track is not None:
+
                 self.queue.add(track)
                 await ctx.send(
                     embed=music_embeds.track_added(
@@ -220,6 +236,7 @@ class Player(wavelink.Player):
                         search_engine=search_engine
                     )
                 )
+
             else:
                 putlog.debug('User didnt selected from the choice. Skipping further processing on this operation.')
 

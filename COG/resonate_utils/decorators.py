@@ -1,10 +1,10 @@
 import sys
 from .custom_exceptions import *
-from functools import wraps
+import functools
 from discord.ext import commands
 from .resonate_settings import Configs
+import asyncio
 
-channel_id = Configs.MUSIC_CMD_CHANNEL
 RESTRICTION = Configs.RESTRICT_CMDS_TO_MUSIC_CHANNEL
 
 
@@ -21,7 +21,7 @@ def export(fn):
 
 
 def check_empty_queue(func):
-    @wraps(func)
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         self, *_ = args
         if self._Queue__queue:
@@ -32,7 +32,7 @@ def check_empty_queue(func):
 
 
 def check_connected_to_channel(func):
-    @wraps(func)
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         self, *_ = args
         if not self.is_connected:
@@ -44,17 +44,40 @@ def check_connected_to_channel(func):
 
 async def predicate(ctx):
     if RESTRICTION:
-        if not ctx.channel.id == channel_id:
-            raise RestrictedCommandToMusicChannel
-        return True
+        if Configs.MUSIC_CMD_CHANNEL:
+            if not ctx.channel.id == Configs.MUSIC_CMD_CHANNEL:
+                raise RestrictedCommandToMusicChannel
+            return True
+        else:
+            raise Exception('Commands restricted to music channel but music channel not specified.')
     return True
 
 
 # A decorator to check Music commands are being called in music channel only.
 check_valid_channel = commands.check(predicate)
 
+
+def show_typing(interval=Configs.TYPING_INTERVAL):
+    assert any([isinstance(interval, int), isinstance(interval, float)])
+
+    def top_wrapper(fun):
+        @functools.wraps(fun)
+        async def wrapper(*args, **kwargs):
+            if Configs.SHOW_TYPING:
+                for ctx in args:
+                    if isinstance(ctx, commands.context.Context):
+                        async with ctx.typing():
+                            await asyncio.sleep(interval)
+            return await fun(*args, **kwargs)
+
+        return wrapper
+
+    return top_wrapper
+
+
 __all__ = [
     "check_valid_channel",
     "check_empty_queue",
+    "show_typing",
     "export"
 ]

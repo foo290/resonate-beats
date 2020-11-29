@@ -10,7 +10,8 @@ INITIAL_CONNECT_GIF_URL = Configs.INITIAL_CONNECT_GIF_URL
 
 @export
 class MusicEmbeds:
-    def __init__(self): ...
+    def __init__(self):
+        ...
 
     @staticmethod
     def show_state(state):
@@ -61,7 +62,8 @@ class MusicEmbeds:
         if thumbnail:
             embed.set_thumbnail(url=thumbnail)
 
-        embed.set_image(url=r'https://firebasestorage.googleapis.com/v0/b/discord-bot-294607.appspot.com/o/bot%2Fgifs%2Fother_gifs%2FAS_divider.gif?alt=media&token=9d5aa995-7a36-4cc5-b92e-a19bd5c03143')
+        embed.set_image(
+            url=r'https://firebasestorage.googleapis.com/v0/b/discord-bot-294607.appspot.com/o/bot%2Fgifs%2Fother_gifs%2FAS_divider.gif?alt=media&token=9d5aa995-7a36-4cc5-b92e-a19bd5c03143')
 
         embed.set_footer(text=f"Added by : {addedby}", icon_url=icon)
 
@@ -168,5 +170,37 @@ class MusicEmbeds:
         return embed
 
     @staticmethod
+    def search_loading(query):
+        embed = discord.Embed(
+            title=f"🔍 Search!",
+            description=f'looking for ***{query}*** ...'
+        )
+
+        embed.set_image(
+            url='https://i.gifer.com/Wcqb.gif'
+        )
+        return embed
+
+    @staticmethod
     def show_info():
         ...
+
+
+@export
+class MusicPlainMessages:
+
+    @staticmethod
+    def search_query(query):
+        return f'🔍  Searching for {query} ...'
+
+    @staticmethod
+    def no_results_found():
+        return 'Oops! . . . I didnt found any song for given query! 😕'
+
+    @staticmethod
+    def playlist_added(playlist_length):
+        return f'{playlist_length} songs of your playlist added in queue successfully!' \
+               f' Keep the party going...🎉 🥳'
+
+
+
