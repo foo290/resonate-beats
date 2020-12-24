@@ -1,4 +1,9 @@
 
+## UPCOMING FEATURE...
+Make your playlist by adding songs and reacting on currently playing songs using simple commands.
+
+play your playlist / add your playlist in current playlist by simple commands...
+
 <p align='center'>
 <img src='https://github.com/foo290/resonate-beats/blob/main/readme_imgs/resonate-beats-logo.png' width=180px, alt='an image was supposed to be here'>
 </p>
